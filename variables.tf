@@ -157,12 +157,12 @@ DESCRIPTION
 
 variable "identity" {
   type = object({
-    type         = optional(string, "")
+    type         = optional(string, null)
     identity_ids = optional(set(string), [])
   })
   default = {}
   validation {
-    condition     = var.identity == {} ? true : contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], var.identity.type)
+    condition     = var.identity.type == null ? true : contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], var.identity.type)
     error_message = "The default_action value must be either `SystemAssigned`, `UserAssigned` or `SystemAssigned, UserAssigned`."
   }
 }
