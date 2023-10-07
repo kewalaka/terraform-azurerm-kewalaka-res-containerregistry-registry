@@ -162,7 +162,7 @@ variable "identity" {
   })
   default = {}
   validation {
-    condition     = var.identity == {} ? true : contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], var.identity)
+    condition     = var.identity == {} ? true : contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], var.identity.type)
     error_message = "The default_action value must be either `SystemAssigned`, `UserAssigned` or `SystemAssigned, UserAssigned`."
   }
 }
