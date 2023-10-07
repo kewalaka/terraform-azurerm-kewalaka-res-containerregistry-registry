@@ -18,6 +18,11 @@ If it is set to false, then no telemetry will be collected.
 DESCRIPTION
 }
 
+provider "azurerm" {
+  skip_provider_registration = true
+  features {}
+}
+
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
   source  = "Azure/naming/azurerm"
