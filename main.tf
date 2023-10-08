@@ -14,7 +14,7 @@ resource "azurerm_container_registry" "this" {
   network_rule_bypass_option    = var.network_rule_bypass_option
 
   dynamic "georeplications" {
-    for_each = var.georeplications != null ? {} : {}
+    for_each = var.georeplications != {} ? { this = var.network_rule_set } : {}
     content {
       location                  = georeplications.value.location
       regional_endpoint_enabled = georeplications.value.regional_endpoint_enabled
@@ -26,7 +26,7 @@ resource "azurerm_container_registry" "this" {
   # Only one network_rule_set block is allowed.
   # Create it if the variable is not null.
   dynamic "network_rule_set" {
-    for_each = var.network_rule_set != null ? { this = var.network_rule_set } : {}
+    for_each = var.network_rule_set != {} ? { this = var.network_rule_set } : {}
     content {
       default_action  = network_rule_set.value.default_action
       ip_rule         = network_rule_set.value.ip_rule
@@ -35,7 +35,7 @@ resource "azurerm_container_registry" "this" {
   }
 
   dynamic "retention_policy" {
-    for_each = var.retention_policy != null ? { this = var.retention_policy } : {}
+    for_each = var.retention_policy != {} ? { this = var.retention_policy } : {}
     content {
       days    = retention_policy.value.days
       enabled = retention_policy.value.enabled
@@ -43,7 +43,7 @@ resource "azurerm_container_registry" "this" {
   }
 
   dynamic "identity" {
-    for_each = var.identity != null ? { this = var.identity } : {}
+    for_each = var.identity != {} ? { this = var.identity } : {}
     content {
       type         = identity.value.type
       identity_ids = identity.value.identity_ids
