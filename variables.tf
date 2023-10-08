@@ -99,7 +99,6 @@ variable "network_rule_bypass_option" {
 
 variable "georeplications" {
   type = list(object({
-    # a valid location needs to be specified even though this will be ignored, as otherwise the default type of "{}" is not accepted.
     location                  = string
     regional_endpoint_enabled = optional(bool, false)
     zone_redundancy_enabled   = optional(bool, true)
