@@ -1,7 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
-# Default example
+# Example illustrating geo-replication
 
-This deploys the module in its simplest form.
+This deploys a geo-replicated Container Registry.  
+
+For information about geo-replication, see <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-geo-replication>
 
 ```hcl
 terraform {
@@ -49,6 +51,24 @@ module "containerregistry" {
   enable_telemetry    = var.enable_telemetry
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
+
+  georeplications = [
+    {
+      location = "australiasoutheast"
+      tags = {
+        environment = "prod"
+        department  = "engineering"
+      }
+    },
+    {
+      location                = "australiacentral"
+      zone_redundancy_enabled = false
+      tags = {
+        environment = "pre-prod"
+        department  = "engineering"
+      }
+    }
+  ]
 }
 ```
 
