@@ -98,12 +98,12 @@ variable "network_rule_bypass_option" {
 }
 
 variable "georeplications" {
-  type = map(object({
+  type = object({
     location                  = string
     regional_endpoint_enabled = optional(bool, false)
     zone_redundancy_enabled   = optional(bool, true)
     tags                      = optional(map(any), null)
-  }))
+  })
   description = "A map of locations where the Container Registry should be geo-replicated. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time."
   default     = {}
 }
@@ -139,10 +139,10 @@ DESCRIPTION
 }
 
 variable "retention_policy" {
-  type = map(object({
+  type = object({
     days    = optional(number, 7)
     enabled = optional(bool, false)
-  }))
+  })
   default     = {}
   description = <<DESCRIPTION
 If enabled, this retention policy will purge an untagged manifest after a specified number of days.  
