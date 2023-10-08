@@ -99,7 +99,7 @@ variable "network_rule_bypass_option" {
 
 variable "georeplications" {
   type = object({
-    location                  = optional(string, "placeholder")
+    location                  = string
     regional_endpoint_enabled = optional(bool, false)
     zone_redundancy_enabled   = optional(bool, true)
     tags                      = optional(map(any), null)
@@ -159,7 +159,7 @@ DESCRIPTION
 
 variable "identity" {
   type = object({
-    type         = optional(string, "SystemAssigned")
+    type         = string
     identity_ids = optional(set(string), [])
   })
   default = {}
