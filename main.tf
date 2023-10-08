@@ -66,11 +66,11 @@ resource "azurerm_container_registry" "this" {
 
   lifecycle {
     precondition {
-      condition     = var.zone_redundancy_enabled && lower(var.sku) == "premium"
+      condition     = var.zone_redundancy_enabled && var.sku == "Premium"
       error_message = "The Premium SKU is required if zone redundancy is enabled."
     }
     precondition {
-      condition     = var.network_rule_set != [] && lower(var.sku) == "premium"
+      condition     = var.network_rule_set != [] && var.sku == "Premium"
       error_message = "The Premium SKU is required if a network rule set is defined."
     }
   }

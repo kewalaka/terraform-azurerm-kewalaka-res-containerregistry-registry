@@ -31,7 +31,7 @@ variable "location" {
 variable "sku" {
   type        = string
   description = "The SKU name of the Container Registry. Default is `premium`. `Possible values are `basic`, `standard` and `premium`."
-  default     = "premium"
+  default     = "Premium"
   validation {
     condition     = contains(["basic", "standard", "premium"], var.sku)
     error_message = "The SKU name must be either `standard` or `premium`."
@@ -99,12 +99,12 @@ variable "network_rule_bypass_option" {
 
 variable "georeplications" {
   type = object({
-    location                  = optional(string, null)
+    location                  = optional(string, "placeholder")
     regional_endpoint_enabled = optional(bool, false)
     zone_redundancy_enabled   = optional(bool, true)
     tags                      = optional(map(any), null)
   })
-  description = "A map of locations where the Container Registry should be geo-replicated. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time."
+  description = "A map of locations where the Container Registry should be geo-replicated."
   default     = {}
 }
 
@@ -159,7 +159,7 @@ DESCRIPTION
 
 variable "identity" {
   type = object({
-    type         = optional(string, null)
+    type         = optional(string, "SystemAssigned")
     identity_ids = optional(set(string), [])
   })
   default = {}
