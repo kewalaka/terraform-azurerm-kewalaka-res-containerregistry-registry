@@ -14,7 +14,7 @@ resource "azurerm_container_registry" "this" {
   network_rule_bypass_option    = var.network_rule_bypass_option
 
   dynamic "georeplications" {
-    for_each = var.georeplications != null ? { this = var.georeplications } : {}
+    for_each = var.georeplications
     content {
       location                  = georeplications.value.location
       regional_endpoint_enabled = georeplications.value.regional_endpoint_enabled

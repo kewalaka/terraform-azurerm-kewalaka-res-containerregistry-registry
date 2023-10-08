@@ -98,15 +98,15 @@ variable "network_rule_bypass_option" {
 }
 
 variable "georeplications" {
-  type = object({
+  type = list(object({
     # a valid location needs to be specified even though this will be ignored, as otherwise the default type of "{}" is not accepted.
-    location                  = optional(string, "australiaeast")
+    location                  = string
     regional_endpoint_enabled = optional(bool, false)
     zone_redundancy_enabled   = optional(bool, true)
     tags                      = optional(map(any), null)
-  })
+  }))
   description = "A map of locations where the Container Registry should be geo-replicated."
-  default     = {}
+  default     = []
 }
 
 variable "network_rule_set" {
