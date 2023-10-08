@@ -113,10 +113,12 @@ variable "network_rule_set" {
     default_action = optional(string, "Deny")
     ip_rule = optional(list(object({
       # since the `action` property only permits `Allow`, this is hard-coded.
+      action   = optional(string, "Allow")
       ip_range = string
     })), [])
     virtual_network = optional(list(object({
       # since the `action` property only permits `Allow`, this is hard-coded.
+      action    = optional(string, "Allow")
       subnet_id = string
     })), [])
   })
@@ -127,8 +129,10 @@ Requires Premium SKU.
 
 - `default_action` - (Optional) The default action when no rule matches. Possible values are `Allow` and `Deny`. Defaults to `Deny`.
 - `ip_rules` - (Optional) A list of IP rules in CIDR format. Defaults to `[]`.
+  - `action` - Only "Allow" is permitted
   - `ip_range` - The CIDR block from which requests will match the rule.
 - `virtual_network` - (Optional) When using with Service Endpoints, a list of subnet IDs to associate with the Container Registry. Defaults to `[]`.
+  - `action` - Only "Allow" is permitted
   - `subnet_id` - The subnet id from which requests will match the rule.
 
 DESCRIPTION

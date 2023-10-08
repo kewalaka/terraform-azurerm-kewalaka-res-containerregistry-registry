@@ -14,7 +14,7 @@ resource "azurerm_container_registry" "this" {
   network_rule_bypass_option    = var.network_rule_bypass_option
 
   dynamic "georeplications" {
-    for_each = var.georeplications != null ? { this = var.network_rule_set } : {}
+    for_each = var.georeplications != null ? { this = var.georeplications } : {}
     content {
       location                  = georeplications.value.location
       regional_endpoint_enabled = georeplications.value.regional_endpoint_enabled
@@ -28,9 +28,23 @@ resource "azurerm_container_registry" "this" {
   dynamic "network_rule_set" {
     for_each = var.network_rule_set != null ? { this = var.network_rule_set } : {}
     content {
-      default_action  = network_rule_set.value.default_action
-      ip_rule         = network_rule_set.value.ip_rule
-      virtual_network = network_rule_set.value.virtual_network
+      default_action = network_rule_set.value.default_action
+
+      dynamic "ip_rule" {
+        for_each = network_rule_set.value.ip_rule
+        content {
+          action   = ip_rule.value.action
+          ip_range = ip_rule.value.ip_range
+        }
+      }
+
+      dynamic "virtual_network" {
+        for_each = network_rule_set.value.virtual_network
+        content {
+          action    = virtual_network.value.action
+          subnet_id = virtual_network.value.subnet_id
+        }
+      }
     }
   }
 
