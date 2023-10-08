@@ -121,7 +121,6 @@ variable "network_rule_set" {
     })), [])
   })
   default     = {}
-  nullable    = true
   description = <<DESCRIPTION
 The network rule set configuration for the Container Registry.
 Requires Premium SKU.
@@ -145,7 +144,6 @@ variable "retention_policy" {
     enabled = optional(bool, false)
   }))
   default     = {}
-  nullable    = true
   description = <<DESCRIPTION
 If enabled, this retention policy will purge an untagged manifest after a specified number of days.  
 
