@@ -30,11 +30,11 @@ variable "location" {
 
 variable "sku" {
   type        = string
-  description = "The SKU name of the Container Registry. Default is `premium`. `Possible values are `basic`, `standard` and `premium`."
+  description = "The SKU name of the Container Registry. Default is `Premium`. `Possible values are `Basic`, `Standard` and `Premium`."
   default     = "Premium"
   validation {
-    condition     = contains(["basic", "standard", "premium"], var.sku)
-    error_message = "The SKU name must be either `standard` or `premium`."
+    condition     = contains(["Basic", "Standard", "Premium"], var.sku)
+    error_message = "The SKU name must be either `Basic`, `Standard` or `Premium`."
   }
 }
 
