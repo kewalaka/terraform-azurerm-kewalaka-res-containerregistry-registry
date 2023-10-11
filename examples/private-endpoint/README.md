@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# Default example
+# Example with Private Endpoint
 
-This deploys the Container Registry module using default settings.
+This deploys the Container Registry module with a private endpoint connection.
 
 ```hcl
 terraform {
@@ -41,14 +41,41 @@ resource "azurerm_resource_group" "this" {
   location = "australiaeast"
 }
 
+# A vnet is required for the private endpoint.
+resource "azurerm_virtual_network" "this" {
+  name                = module.naming.virtual_network.name_unique
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  address_space       = ["192.168.0.0/24"]
+}
+
+resource "azurerm_subnet" "this" {
+  name                 = module.naming.subnet.name_unique
+  resource_group_name  = azurerm_resource_group.this.name
+  virtual_network_name = azurerm_virtual_network.this.name
+  address_prefixes     = ["192.168.0.0/24"]
+}
+
+resource "azurerm_private_dns_zone" "this" {
+  name                = "privatelink.vaultcore.azure.net"
+  resource_group_name = azurerm_resource_group.this.name
+}
+
 # This is the module call
 module "containerregistry" {
   source = "../../"
   # source             = "Azure/avm-containerregistry-registry/azurerm"
-  name                = module.naming.container_registry.name_unique
-  enable_telemetry    = var.enable_telemetry
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  name                          = module.naming.container_registry.name_unique
+  enable_telemetry              = var.enable_telemetry
+  location                      = azurerm_resource_group.this.location
+  resource_group_name           = azurerm_resource_group.this.name
+  public_network_access_enabled = false
+  private_endpoints = {
+    primary = {
+      private_dns_zone_resource_ids = [azurerm_private_dns_zone.this.id]
+      subnet_resource_id            = azurerm_subnet.this.id
+    }
+  }
 }
 ```
 
@@ -71,7 +98,10 @@ The following providers are used by this module:
 
 The following resources are used by this module:
 
+- [azurerm_private_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) (resource)
+- [azurerm_subnet.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) (resource)
+- [azurerm_virtual_network.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) (resource)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
