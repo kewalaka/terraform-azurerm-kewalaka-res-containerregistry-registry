@@ -88,13 +88,16 @@ variable "data_endpoint_enabled" {
 }
 
 variable "network_rule_bypass_option" {
-  type        = string
-  description = "Specifies whether to allow trusted Azure services access to a network restricted Container Registry.  Possible values are None and AzureServices. Defaults to None."
-  default     = "None"
+  type    = string
+  default = "None"
   validation {
     condition     = var.network_rule_bypass_option == null ? true : contains(["AzureServices", "None"], var.network_rule_bypass_option)
     error_message = "The network_rule_bypass_option variable must be either `AzureServices` or `None`."
   }
+  description = <<DESCRIPTION
+Specifies whether to allow trusted Azure services access to a network restricted Container Registry.  
+Possible values are `None` and `AzureServices`. Defaults to `None`.
+DESCRIPTION
 }
 
 variable "georeplications" {
