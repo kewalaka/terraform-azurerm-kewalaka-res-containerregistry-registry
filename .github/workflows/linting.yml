@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: check docs
-        uses: Azure/terraform-azurerm-avm-template/.github/actions/docs-check@main
+        uses: ./.github/actions/docs-check
 
       - name: lint terraform
         uses: Azure/terraform-azurerm-avm-template/.github/actions/linting@main

@@ -1,7 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
-# Default example
+# Example illustrating geo-replication
 
-This deploys the Container Registry module using default settings.
+This deploys a geo-replicated Container Registry.  
+
+For information about geo-replication, see <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-geo-replication>
 
 ```hcl
 terraform {
@@ -38,7 +40,7 @@ module "naming" {
 # This is required for resource modules
 resource "azurerm_resource_group" "this" {
   name     = module.naming.resource_group.name_unique
-  location = "australiaeast"
+  location = "australiasoutheast"
 }
 
 # This is the module call
@@ -49,6 +51,27 @@ module "containerregistry" {
   enable_telemetry    = var.enable_telemetry
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
+  # australiasoutheast doesn't support zone redundancy for ACR (https://learn.microsoft.com/en-us/azure/container-registry/zone-redundancy#regional-support)
+  zone_redundancy_enabled = false
+
+  georeplications = [
+    {
+      location = "australiaeast"
+      # zone redundancy is enabled by default, and is supported in australia east
+      tags = {
+        environment = "prod"
+        department  = "engineering"
+      }
+    },
+    {
+      location                = "australiacentral"
+      zone_redundancy_enabled = false
+      tags = {
+        environment = "pre-prod"
+        department  = "engineering"
+      }
+    }
+  ]
 }
 ```
 

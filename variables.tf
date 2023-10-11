@@ -100,7 +100,7 @@ variable "network_rule_bypass_option" {
 variable "georeplications" {
   type = list(object({
     location                  = string
-    regional_endpoint_enabled = optional(bool, false)
+    regional_endpoint_enabled = optional(bool, true)
     zone_redundancy_enabled   = optional(bool, true)
     tags                      = optional(map(any), null)
   }))
