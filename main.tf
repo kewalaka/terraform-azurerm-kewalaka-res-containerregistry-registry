@@ -70,7 +70,7 @@ resource "azurerm_container_registry" "this" {
       error_message = "The Premium SKU is required if zone redundancy is enabled."
     }
     precondition {
-      condition     = length(var.network_rule_set) != 0 && var.sku == "Premium" || length(var.network_rule_set) == 0
+      condition     = var.network_rule_set != null && var.sku == "Premium" || var.network_rule_set == null
       error_message = "The Premium SKU is required if a network rule set is defined."
     }
   }

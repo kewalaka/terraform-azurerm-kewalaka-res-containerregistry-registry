@@ -125,7 +125,7 @@ variable "network_rule_set" {
       subnet_id = string
     })), [])
   })
-  default     = {}
+  default     = null
   description = <<DESCRIPTION
 The network rule set configuration for the Container Registry.
 Requires Premium SKU.
