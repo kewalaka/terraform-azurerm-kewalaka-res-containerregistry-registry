@@ -140,7 +140,7 @@ Requires Premium SKU.
 
 DESCRIPTION
   validation {
-    condition     = var.network_rule_set == null ? true : contains(["Allow", "Deny"], var.network_rule_set.default_action)
+    condition     = length(var.network_rule_set) == 0 ? true : contains(["Allow", "Deny"], var.network_rule_set[*].default_action)
     error_message = "The default_action value must be either `Allow` or `Deny`."
   }
 }
