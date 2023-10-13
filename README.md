@@ -197,7 +197,7 @@ Requires Premium SKU.
 Type:
 
 ```hcl
-list(object({
+object({
     default_action = optional(string, "Deny")
     ip_rule = optional(list(object({
       # since the `action` property only permits `Allow`, this is hard-coded.
@@ -209,10 +209,10 @@ list(object({
       action    = optional(string, "Allow")
       subnet_id = string
     })), [])
-  }))
+  })
 ```
 
-Default: `[]`
+Default: `null`
 
 ### <a name="input_private_endpoints"></a> [private\_endpoints](#input\_private\_endpoints)
 
