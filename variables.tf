@@ -112,7 +112,7 @@ variable "georeplications" {
 }
 
 variable "network_rule_set" {
-  type = object({
+  type = list(object({
     default_action = optional(string, "Deny")
     ip_rule = optional(list(object({
       # since the `action` property only permits `Allow`, this is hard-coded.
@@ -124,8 +124,8 @@ variable "network_rule_set" {
       action    = optional(string, "Allow")
       subnet_id = string
     })), [])
-  })
-  default     = {}
+  }))
+  default     = []
   description = <<DESCRIPTION
 The network rule set configuration for the Container Registry.
 Requires Premium SKU.
