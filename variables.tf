@@ -25,7 +25,8 @@ variable "name" {
 
 variable "location" {
   type        = string
-  description = "The Azure location where the resources will be deployed."
+  description = "The Azure location where the resources will be deployed.  If null, the location of the provided resource group will be used."
+  default     = null
 }
 
 variable "sku" {
