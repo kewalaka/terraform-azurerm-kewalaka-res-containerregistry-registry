@@ -1,6 +1,11 @@
 <!-- BEGIN_TF_DOCS -->
 # terraform-azurerm-avm-containerregistry
 
+> [!NOTE]
+> This has been archived because there is now an [official AVM module for Container Registries](https://github.com/azure/terraform-azurerm-avm-res-containerregistry-registry) 🚀
+> 
+> No further updates will be posted here, this repo has been archived.
+
 This is a Container Registry repo in the style of Azure Verified Modules (AVM), it is an 'unofficial' example that has been used for learning AVM.
 
 As a starting point, the azurerm\_container\_registry resource has been implemented, noting this supports all attributes such as georeplication and zone redundancy.
